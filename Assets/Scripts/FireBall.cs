@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,10 +7,12 @@ public class FireBall : MonoBehaviour
 
     public float speed;
     public float lifetime;
+    public float damage;
+    private object collision;
 
     private void FixedUpdate()
     {
-       MoveFixedUpdate();
+        MoveFixedUpdate();
     }
 
     private void MoveFixedUpdate()
@@ -20,6 +22,7 @@ public class FireBall : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        DamageEnemy(collision);
         DestroyFireBall();
     }
 
@@ -30,7 +33,16 @@ public class FireBall : MonoBehaviour
 
     private void Start()
     {
-        Invoke ("DestroyFireBall", lifetime);
+        Invoke("DestroyFireBall", lifetime);
     }
 
-}
+
+    private void DamageEnemy(Collision collision)
+    {
+        var enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+        if (enemyHealth != null)
+        {
+            enemyHealth.DealDamage(damage);
+            }
+        }
+    }
